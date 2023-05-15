@@ -3,21 +3,18 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-if __name__ == '__main__':
-    engine = create_engine('sqlite:///app.db')
-    Base.metadata.create_all(engine)
 
 class User(Base):
-    __tablename__ = 'User'
+    __tablename__ = 'user'
 
     all = []
 
     id = Column(Integer(), primary_key=True)
-    name = Column('Name', String())
-    age = Column('Age', Integer())
-    fav_genre = Column('Favorite Genre', String())
-    email = Column('Email', String())
-    phone_number = Column('Phone Number', Integer())
+    name = Column('name', String())
+    age = Column('age', Integer())
+    fav_genre = Column('favorite genre', String())
+    email = Column('email', String())
+    phone_number = Column('phone number', Integer())
 
     def __init__(self, name, age, fav_genre, email, phone_number):
         self.name = name
@@ -28,3 +25,40 @@ class User(Base):
 
         User.all.append(self)
 
+class Books(Base):
+    __tablename__ = 'books'
+
+    all = []
+
+    id = Column(Integer(), primary_key=True)
+    name = Column('name', String())
+    author = Column('name', String())
+    publish_date = Column('date', String())
+    read = Column('read', Boolean())
+
+    def __init__(self, name, author, publish_date, read):
+        self.name = name
+        self.author = author
+        self.publish_date = publish_date
+        self.read = read
+
+        Books.all.append(self)
+
+class Reviews(Base):
+    __tablename__ = 'reviews'
+
+    all = []
+
+    id = Column(Integer(), primary_key=True)
+    text = Column('review', String())
+    rating = Column('rating out of 5', Integer())
+
+    def __init__(self, text, rating):
+        self.text = text
+        self.rating = rating
+
+        Reviews.all.append(self)
+
+if __name__ == '__main__':
+    engine = create_engine('sqlite:///app.db')
+    Base.metadata.create_all(engine)
