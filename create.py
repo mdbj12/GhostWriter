@@ -39,11 +39,11 @@ if user_input.lower() == 'y':
 
     def create_user(name,age,fav_genre,email,phone_number):
         new_user = User(
-            name=name,
-            age=age,
-            fav_genre=fav_genre,
-            email=email,
-            phone_number=phone_number
+            name = name,
+            age = age,
+            fav_genre = fav_genre,
+            email = email,
+            phone_number = phone_number
             )
 
         session.add(new_user)
@@ -64,10 +64,10 @@ if book.lower() == 'y':
 
     def add_book(title, author, publish_date, read):
         new_book = Books(
-            title=title,
-            author=author,
-            publish_date=publish_date,
-            read=read
+            title = title,
+            author = author,
+            publish_date = publish_date,
+            read = read
             )
 
         session.add(new_book)
@@ -77,3 +77,23 @@ if book.lower() == 'y':
         add_book()
     else:
         print('Read more books!')
+
+review = input('Do you want to leave a review? Y/n: ')
+if review.lower() == 'y':
+    @click.command()
+    @click.option('--review', prompt='Write your review! ')
+    @click.option('--rating', prompt='What do you rate this book out of 5? ')
+
+    def write_review(review, rating):
+        new_review = Reviews(
+            review = review,
+            rating = rating
+        )
+
+        session.add(new_review)
+        session.commit()
+
+    if __name__ == '__main__':
+        write_review()
+    else:
+        print('Please leave a review next time!')

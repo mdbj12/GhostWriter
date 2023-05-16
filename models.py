@@ -51,12 +51,12 @@ class Reviews(Base):
     all = []
 
     id = Column(Integer(), primary_key=True)
-    text = Column('review', String())
+    review = Column('review', String())
     rating = Column('rating out of 5', Integer())
 
     def __repr__(self):
         return f'''
-            text: {self.text},
+            review: {self.review},
             rating: {self.rating}
         '''
 
