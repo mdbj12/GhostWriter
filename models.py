@@ -9,21 +9,22 @@ class User(Base):
 
     all = []
 
-    id = Column(Integer(), primary_key=True)
-    name = Column('name', String())
-    age = Column('age', Integer())
-    fav_genre = Column('favorite genre', String())
-    email = Column('email', String())
-    phone_number = Column('phone number', Integer())
+    id = Column(Integer, primary_key=True)
+    name = Column('name', String)
+    age = Column('age', Integer)
+    fav_genre = Column('favorite genre', String)
+    email = Column('email', String)
+    phone_number = Column('phone number', Integer)
 
-    def __init__(self, name, age, fav_genre, email, phone_number):
-        self.name = name
-        self.age = age
-        self.fav_genre = fav_genre
-        self.email = email
-        self.phone_number = phone_number
-
-        User.all.append(self)
+    def __repr__(self):
+        return f"""
+                name: {self.name},
+                age:{self.age},
+                fav_genre:{self.fav_genre},
+                email:{self.email},
+                phone_number:{self.phone_number}
+                """
+    
 
 class Books(Base):
     __tablename__ = 'books'
@@ -31,13 +32,13 @@ class Books(Base):
     all = []
 
     id = Column(Integer(), primary_key=True)
-    name = Column('name', String())
-    author = Column('name', String())
+    title = Column('title', String())
+    author = Column('author', String())
     publish_date = Column('date', String())
     read = Column('read', Boolean())
 
-    def __init__(self, name, author, publish_date, read):
-        self.name = name
+    def __init__(self, title, author, publish_date, read):
+        self.title = title
         self.author = author
         self.publish_date = publish_date
         self.read = read

@@ -1,16 +1,16 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+# from sqlalchemy import create_engine
+# from sqlalchemy.orm import sessionmaker, declarative_base
 
-# from models import User
+# # from models import User
 
-Base = declarative_base()
+# Base = declarative_base()
 
-if __name__ == '__main__':
-    engine = create_engine('sqlite:///app.db')
-    Base.metadata.create_all(engine)
+# if __name__ == '__main__':
+#     engine = create_engine('sqlite:///app.db')
+#     Base.metadata.create_all(engine)
 
-    Session = sessionmaker(bind = engine)
-    session = Session()
+#     Session = sessionmaker(bind = engine)
+#     session = Session()
 
 #     u1 = User(
 #         name = 'Michael',
