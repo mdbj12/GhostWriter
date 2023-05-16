@@ -35,7 +35,7 @@ class Books(Base):
     title = Column('title', String())
     author = Column('author', String())
     publish_date = Column('date', String())
-    read = Column('read', Boolean())
+    read = Column('read', String())
 
     def __repr__(self):
         return f'''
