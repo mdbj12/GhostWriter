@@ -53,11 +53,15 @@ class Reviews(Base):
     id = Column(Integer(), primary_key=True)
     review = Column('review', String())
     rating = Column('rating out of 5', Integer())
+    book_id = Column(Integer(), ForeignKey('books.id'))
+    user_id = Column(Integer(), ForeignKey('user.id'))
 
     def __repr__(self):
         return f'''
             review: {self.review},
-            rating: {self.rating}
+            rating: {self.rating},
+            book_id: {self.book_id},
+            user_id: {self.user_id}
         '''
 
 if __name__ == '__main__':
