@@ -28,11 +28,13 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 options = 0
-while options != 4:
+while options != 6:
     print('(1) Let me steal your data!')
     print('(2) Want to add a book?')
     print('(3) Write a review?')
-    print('(4) QUIT now before I steal your data!!!')
+    print('(4) Wanna see who read the most books?')
+    print('(5) Wanna see which book has the most reviews?')
+    print('(6) QUIT now before I steal your data!!!')
 
     options = int(input())
 
@@ -65,6 +67,7 @@ while options != 4:
                 )
             session.add(new_user)
             session.commit()
+            click.echo('User Data Stolen!')
 
         if __name__ == '__main__':
             create_user.main(standalone_mode=False)
@@ -98,6 +101,7 @@ while options != 4:
 
             session.add(new_book)
             session.commit()
+            click.echo('Book Stolen!')
 
         if __name__ == '__main__':
             add_book.main(standalone_mode=False)
@@ -125,11 +129,11 @@ while options != 4:
 
         while True:
             try:
-                submitted_book_id = int(input('search a book ID: '))
+                book_id = int(input('search a book ID: '))
             except ValueError:
                 print('input must be an integer')
                 continue
-            if not submitted_book_id in list(book_info.keys()):
+            if not book_id in list(book_info.keys()):
                 print('book ID does not exist')
             else:
                 break
@@ -142,11 +146,11 @@ while options != 4:
 
         while True:
             try:
-                submitted_user_id = int(input("search a user ID: "))
+                user_id = int(input("search a user ID: "))
             except ValueError:
                 print('input must be an integer')
                 continue
-            if not submitted_user_id in list(user_info.keys()):
+            if not user_id in list(user_info.keys()):
                 print('user ID does not exist')
             else:
                 break
@@ -154,9 +158,8 @@ while options != 4:
         @click.command()
         @click.option('--review', prompt='Write your review! ')
         @click.option('--rating', prompt='What do you rate this book out of 5? ')
-        @click.option('--book_id', prompt='What book are you writing about? (Type in book_id) ')
-        @click.option('--user_id', prompt='Which user are you? (Type in user_id) ')
-        def write_review(review, rating, book_id, user_id):
+
+        def write_review(review, rating, book_id=book_id, user_id=user_id):
             new_review = Reviews(
                 review = review,
                 rating = rating,
@@ -166,21 +169,50 @@ while options != 4:
 
             session.add(new_review)
             session.commit()
+            click.echo('Review Stolen!')
 
         if __name__ == '__main__':
             write_review.main(standalone_mode=False)
         else:
             print('Please leave a review next time!')
+        
+    elif options == 4:
+        print('''
+        .-. .-')   ('-.   .-')   .-') _          _  .-')    ('-.  ('-.    _ .-') _    ('-. _  .-') ,---. 
+        \  ( OO )_(  OO) ( OO ).(  OO) )        ( \( -O ) _(  OO)( OO ).-( (  OO) ) _(  OO( \( -O )|   | 
+         ;-----.(,------(_)---\_/     '._        ,------.(,------/ . --. /\     .'_(,------,------.|   | 
+         | .-.  ||  .---/    _ ||'--...__)       |   /`. '|  .---| \-.  \ ,`'--..._)|  .---|   /`. |   | 
+         | '-' /_|  |   \  :` `.'--.  .--'       |  /  | ||  | .-'-'  |  ||  |  \  '|  |   |  /  | |   | 
+         | .-. `(|  '--. '..`''.)  |  |          |  |_.' (|  '--\| |_.'  ||  |   ' (|  '--.|  |_.' |  .' 
+         | |  \  |  .--'.-._)   \  |  |          |  .  '.'|  .--'|  .-.  ||  |   / :|  .--'|  .  '.`--'  
+         | '--'  |  `---\       /  |  |          |  |\  \ |  `---|  | |  ||  '--'  /|  `---|  |\  \.--.  
+         `------'`------'`-----'   `--'          `--' '--'`------`--' `--'`-------' `------`--' '--'--'  
+        ''')
+
+        print()
+
+    elif options == 5:
+        print('''
+        .-. .-')   ('-.   .-')   .-') _         .-. .-')                         .-. .-') ,---. 
+        \  ( OO )_(  OO) ( OO ).(  OO) )        \  ( OO )                        \  ( OO )|   | 
+         ;-----.(,------(_)---\_/     '._        ;-----.\ .-'),-----. .-'),-----.,--. ,--.|   | 
+         | .-.  ||  .---/    _ ||'--...__)       | .-.  |( OO'  .-.  ( OO'  .-.  |  .'   /|   | 
+         | '-' /_|  |   \  :` `.'--.  .--'       | '-' /_/   |  | |  /   |  | |  |      /,|   | 
+         | .-. `(|  '--. '..`''.)  |  |          | .-. `.\_) |  |\|  \_) |  |\|  |     ' _|  .' 
+         | |  \  |  .--'.-._)   \  |  |          | |  \  | \ |  | |  | \ |  | |  |  .   \ `--'  
+         | '--'  |  `---\       /  |  |          | '--'  /  `'  '-'  '  `'  '-'  |  |\   \.--.  
+         `------'`------'`-----'   `--'          `------'     `-----'     `-----'`--' '--''--'  
+        ''')
 
     else:
         print('''
-               .-')                       .-') _   .-') _             .-') _                    _ (`-. _  .-')                        _  .-')    ('-.    _   .-')    
-            .(  OO)                     (  OO) ) (  OO) )           ( OO ) )                  ( (OO  ( \( -O )                      ( \( -O )  ( OO ).-( '.( OO )_  
-            (_)---\_)  ,--. ,--.   ,-.-')/     '._/     '._,-.-'),--./ ,--,' ,----.           _.`     \,------. .-'),-----.  ,----.   ,------.  / . --. /,--.   ,--.)
-            '  .-.  '  |  | |  |   |  |OO|'--...__|'--...__|  |OO|   \ |  |\'  .-./-')       (__...--''|   /`. ( OO'  .-.  ''  .-./-')|   /`. ' | \-.  \ |   `.'   | 
-           ,|  | |  |  |  | | .-') |  |  '--.  .--'--.  .--|  |  |    \|  | |  |_( O- )       |  /  | ||  /  | /   |  | |  ||  |_( O- |  /  | .-'-'  |  ||         | 
-          (_|  | |  |  |  |_|( OO )|  |(_/  |  |     |  |  |  |(_|  .     |/|  | .--, \       |  |_.' ||  |_.' \_) |  |\|  ||  | .--, |  |_.' |\| |_.'  ||  |'.'|  | 
-            |  | |  |  |  | | `-' ,|  |_.'  |  |     |  | ,|  |_.|  |\    |(|  | '. (_/       |  .___.'|  .  '.' \ |  | |  (|  | '. (_|  .  '.' |  .-.  ||  |   |  | 
-            '  '-'  '-('  '-'(_.-(_|  |     |  |     |  |(_|  |  |  | \   | |  '--'  |        |  |     |  |\  \   `'  '-'  '|  '--'  ||  |\  \  |  | |  ||  |   |  | 
-              `-----'--' `-----'    `--'     `--'     `--'  `--'  `--'  `--'  `------'         `--'     `--' '--'    `-----'  `------' `--' '--' `--' `--'`--'   `--' 
+          .-')                       .-') _   .-') _             .-') _                    _ (`-. _  .-')                        _  .-')    ('-.    _   .-')    
+        .(  OO)                     (  OO) ) (  OO) )           ( OO ) )                  ( (OO  ( \( -O )                      ( \( -O )  ( OO ).-( '.( OO )_  
+        (_)---\_)  ,--. ,--.   ,-.-')/     '._/     '._,-.-'),--./ ,--,' ,----.           _.`     \,------. .-'),-----.  ,----.   ,------.  / . --. /,--.   ,--.)
+        '  .-.  '  |  | |  |   |  |OO|'--...__|'--...__|  |OO|   \ |  |\'  .-./-')       (__...--''|   /`. ( OO'  .-.  ''  .-./-')|   /`. ' | \-.  \ |   `.'   | 
+       ,|  | |  |  |  | | .-') |  |  '--.  .--'--.  .--|  |  |    \|  | |  |_( O- )       |  /  | ||  /  | /   |  | |  ||  |_( O- |  /  | .-'-'  |  ||         | 
+      (_|  | |  |  |  |_|( OO )|  |(_/  |  |     |  |  |  |(_|  .     |/|  | .--, \       |  |_.' ||  |_.' \_) |  |\|  ||  | .--, |  |_.' |\| |_.'  ||  |'.'|  | 
+        |  | |  |  |  | | `-' ,|  |_.'  |  |     |  | ,|  |_.|  |\    |(|  | '. (_/       |  .___.'|  .  '.' \ |  | |  (|  | '. (_|  .  '.' |  .-.  ||  |   |  | 
+        '  '-'  '-('  '-'(_.-(_|  |     |  |     |  |(_|  |  |  | \   | |  '--'  |        |  |     |  |\  \   `'  '-'  '|  '--'  ||  |\  \  |  | |  ||  |   |  | 
+         `-----'--' `-----'    `--'     `--'     `--'  `--'  `--'  `--'  `------'         `--'     `--' '--'    `-----'  `------' `--' '--' `--' `--'`--'   `--' 
         ''')
