@@ -32,18 +32,28 @@ while options != 4:
     print('(1) Let me steal your data!')
     print('(2) Want to add a book?')
     print('(3) Write a review?')
-    print('(4) Too bad I couldnt steal your data... QUIT!!!')
+    print('(4) QUIT now before I steal your data!!!')
 
     options = int(input())
 
     if options == 1:
-        print('Input your data!')
+        print('''
+                                (`-.     ('-.         _   .-')      ('-.                                           _  .-')         _ .-') _    ('-.    .-') _     ('-.   ,---. 
+                              _(OO  )_ _(  OO)       ( '.( OO )_  _(  OO)                                         ( \( -O )       ( (  OO) )  ( OO ).-(  OO) )   ( OO ).-|   | 
+         ,----.    ,-.-'),--(_/   ,. (,------.       ,--.   ,--.(,------.        ,--.   ,--.-'),-----. ,--. ,--.  ,------.        \     .'_  / . --. /     '._  / . --. |   | 
+        '  .-./-') |  |OO\   \   /(__/|  .---'       |   `.'   | |  .---'         \  `.'  ( OO'  .-.  '|  | |  |  |   /`. '       ,`'--..._) | \-.  \|'--...__) | \-.  \|   | 
+        |  |_( O- )|  |  \\   \ /   / |  |           |         | |  |           .-')     //   |  | |  ||  | | .-')|  /  | |       |  |  \  .-'-'  |  '--.  .--.-'-'  |  |   | 
+        |  | .--, \|  |(_/ \   '   /,(|  '--.        |  |'.'|  |(|  '--.       (OO  \   / \_) |  |\|  ||  |_|( OO |  |_.' |       |  |   ' |\| |_.'  |  |  |   \| |_.'  |  .' 
+       (|  | '. (_,|  |_.'  \     /__)|  .--'        |  |   |  | |  .--'        |   /  /\_  \ |  | |  ||  | | `-' |  .  '.'       |  |   / : |  .-.  |  |  |    |  .-.  `--'  
+        |  '--'  (_|  |      \   /    |  `---.       |  |   |  | |  `---.       `-./  /.__)  `'  '-'  ('  '-'(_.-'|  |\  \        |  '--'  / |  | |  |  |  |    |  | |  .--.  
+         `------'  `--'       `-'     `------'       `--'   `--' `------'         `--'         `-----'  `-----'   `--' '--'       `-------'  `--' `--'  `--'    `--' `--'--' 
+        ''')
         @click.command()
-        @click.option('--name', prompt='Enter name')
-        @click.option('--age', prompt='Enter age')
-        @click.option('--fav_genre', prompt='Enter favorite genre')
-        @click.option('--email', prompt='Enter email')
-        @click.option('--phone_number', prompt='Enter phone number')
+        @click.option('--name', prompt='Enter name: ')
+        @click.option('--age', prompt='Enter age: ')
+        @click.option('--fav_genre', prompt='Enter favorite genre: ')
+        @click.option('--email', prompt='Enter email: ')
+        @click.option('--phone_number', prompt='Enter phone number: ')
 
         def create_user(name,age,fav_genre,email,phone_number):
             new_user = User(
@@ -59,15 +69,26 @@ while options != 4:
         if __name__ == '__main__':
             create_user.main(standalone_mode=False)
         else:
-            print('Too bad I couldnt steal your data')
+            print('Too bad I couldnt steal your data...')
         continue
 
     elif options == 2:
+        print('''
+       (`\ .-') /`('-. .-.  ('-.    .-') _          _ .-') _         _ .-') _                                                   _  .-')    ('-.  ('-.    _ .-') _  ,------.  
+        `.( OO ),( OO )  / ( OO ).-(  OO) )        ( (  OO) )       ( (  OO) )                                                 ( \( -O ) _(  OO)( OO ).-( (  OO) )'  .--.  ' 
+        ,--./  .--. ,--. ,--. / . --. /     '._        \     .'_  ,-.-')\     .'_         ,--.   ,--.-'),-----. ,--. ,--.          ,------.(,------/ . --. /\     .'_|  |  |  | 
+        |      |  | |  | |  | | \-.  \|'--...__)       ,`'--..._) |  |OO,`'--..._)         \  `.'  ( OO'  .-.  '|  | |  |          |   /`. '|  .---| \-.  \ ,`'--..._'--'  |  | 
+        |  |   |  |,|   .|  .-'-'  |  '--.  .--'       |  |  \  ' |  |  |  |  \  '       .-')     //   |  | |  ||  | | .-')        |  /  | ||  | .-'-'  |  ||  |  \  '   __.  | 
+        |  |.'.|  |_|       |\| |_.'  |  |  |          |  |   ' | |  |(_|  |   ' |      (OO  \   / \_) |  |\|  ||  |_|( OO )       |  |_.' (|  '--\| |_.'  ||  |   ' |  |   .'  
+        |         | |  .-.  | |  .-.  |  |  |          |  |   / :,|  |_.|  |   / :       |   /  /\_  \ |  | |  ||  | | `-' /       |  .  '.'|  .--'|  .-.  ||  |   / :  |___|   
+        |   ,'.   | |  | |  | |  | |  |  |  |          |  '--'  (_|  |  |  '--'  /       `-./  /.__)  `'  '-'  ('  '-'(_.-'        |  |\  \ |  `---|  | |  ||  '--'  /  .---.   
+        '--'   '--' `--' `--' `--' `--'  `--'          `-------'  `--'  `-------'          `--'         `-----'  `-----'           `--' '--'`------`--' `--'`-------'   '---'  
+        ''')
         @click.command()
-        @click.option('--title', prompt='Enter Title')
-        @click.option('--author', prompt='Enter Author')
-        @click.option('--publish_date', prompt='Enter Publish_Date (MMDDYYYY format)')
-        @click.option('--read', prompt='Have you read this book?')
+        @click.option('--title', prompt='Enter Title: ')
+        @click.option('--author', prompt='Enter Author: ')
+        @click.option('--publish_date', prompt='Enter Publish_Date (MMDDYYYY format): ')
+        @click.option('--read', prompt='Have you read this book? (Yes or No?): ')
 
         def add_book(title, author, publish_date, read):
             new_book = Books(
@@ -86,6 +107,17 @@ while options != 4:
             print('Read more books!')
 
     elif options == 3:
+        print('''
+                    ('-.  ('-.         (`-.     ('-.           ('-.           _  .-')    ('-.       (`-.            ('-.   (`\ .-') /,---. 
+                  _(  OO)( OO ).-.   _(OO  )_ _(  OO)         ( OO ).-.      ( \( -O ) _(  OO)    _(OO  )_        _(  OO)   `.( OO ),|   | 
+         ,--.    (,------/ . --. ,--(_/   ,. (,------.        / . --. /       ,------.(,------,--(_/   ,. \,-.-')(,------,--./  .--. |   | 
+         |  |.-') |  .---| \-.  \\   \   /(__/|  .---'        | \-.  \        |   /`. '|  .---\   \   /(__/|  |OO)|  .---|      |  | |   | 
+         |  | OO )|  | .-'-'  |  |\   \ /   / |  |          .-'-'  |  |       |  /  | ||  |    \   \ /   / |  |  \|  |   |  |   |  |,|   | 
+         |  |`-' (|  '--\| |_.'  | \   '   /,(|  '--.        \| |_.'  |       |  |_.' (|  '--.  \   '   /, |  |(_(|  '--.|  |.'.|  |_|  .' 
+        (|  '---.'|  .--'|  .-.  |  \     /__)|  .--'         |  .-.  |       |  .  '.'|  .--'   \     /__,|  |_.'|  .--'|         | `--'  
+         |      | |  `---|  | |  |   \   /    |  `---.        |  | |  |       |  |\  \ |  `---.   \   /  (_|  |   |  `---|   ,'.   | .--.  
+         `------' `------`--' `--'    `-'     `------'        `--' `--'       `--' '--'`------'    `-'     `--'   `------'--'   '--' '--'  
+        ''')
         @click.command()
         @click.option('--review', prompt='Write your review! ')
         @click.option('--rating', prompt='What do you rate this book out of 5? ')
