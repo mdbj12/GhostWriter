@@ -87,14 +87,12 @@ while options != 4:
         @click.command()
         @click.option('--title', prompt='Enter Title: ')
         @click.option('--author', prompt='Enter Author: ')
-        @click.option('--publish_date', prompt='Enter Publish_Date (MMDDYYYY format): ')
         @click.option('--read', prompt='Have you read this book? (Yes or No?): ')
 
-        def add_book(title, author, publish_date, read):
+        def add_book(title, author, read):
             new_book = Books(
                 title = title,
                 author = author,
-                publish_date = publish_date,
                 read = read
                 )
 
@@ -118,12 +116,46 @@ while options != 4:
          |      | |  `---|  | |  |   \   /    |  `---.        |  | |  |       |  |\  \ |  `---.   \   /  (_|  |   |  `---|   ,'.   | .--.  
          `------' `------`--' `--'    `-'     `------'        `--' `--'       `--' '--'`------'    `-'     `--'   `------'--'   '--' '--'  
         ''')
+
+        books = session.query(Books).all()
+        book_info = dict()
+        for book in books:
+            book_info[book.id] = book
+        print(book_info)
+
+        while True:
+            try:
+                submitted_book_id = int(input('search a book ID: '))
+            except ValueError:
+                print('input must be an integer')
+                continue
+            if not submitted_book_id in list(book_info.keys()):
+                print('book ID does not exist')
+            else:
+                break
+        
+        users = session.query(User).all()
+        user_info = dict()
+        for user in users:
+            user_info[user.id] = user
+        print(user_info)
+
+        while True:
+            try:
+                submitted_user_id = int(input("search a user ID: "))
+            except ValueError:
+                print('input must be an integer')
+                continue
+            if not submitted_user_id in list(user_info.keys()):
+                print('user ID does not exist')
+            else:
+                break
+
         @click.command()
         @click.option('--review', prompt='Write your review! ')
         @click.option('--rating', prompt='What do you rate this book out of 5? ')
-        @click.option('--book_id')
-        @click.option('--user_id')
-
+        @click.option('--book_id', prompt='What book are you writing about? (Type in book_id) ')
+        @click.option('--user_id', prompt='Which user are you? (Type in user_id) ')
         def write_review(review, rating, book_id, user_id):
             new_review = Reviews(
                 review = review,

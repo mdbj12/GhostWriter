@@ -34,14 +34,12 @@ class Books(Base):
     id = Column(Integer(), primary_key=True)
     title = Column('title', String())
     author = Column('author', String())
-    publish_date = Column('date', String())
     read = Column('read', String())
 
     def __repr__(self):
         return f'''
             title: {self.title},
             author: {self.author},
-            publish_date: {self.publish_date},
             read: {self.read}
         '''
 
