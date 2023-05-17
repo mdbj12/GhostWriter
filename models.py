@@ -5,7 +5,7 @@ Base = declarative_base()
 
 
 class User(Base):
-    __tablename__ = 'user'
+    __tablename__ = 'users'
 
     all = []
 
@@ -42,7 +42,7 @@ class Books(Base):
             title: {self.title},
             author: {self.author},
             publish_date: {self.publish_date},
-            read; {self.read}
+            read: {self.read}
         '''
 
 class Reviews(Base):
@@ -54,7 +54,7 @@ class Reviews(Base):
     review = Column('review', String())
     rating = Column('rating out of 5', Integer())
     book_id = Column(Integer(), ForeignKey('books.id'))
-    user_id = Column(Integer(), ForeignKey('user.id'))
+    user_id = Column(Integer(), ForeignKey('users.id'))
 
     def __repr__(self):
         return f'''

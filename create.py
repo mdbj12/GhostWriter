@@ -3,7 +3,6 @@ from sqlalchemy.orm import sessionmaker
 
 from models import Base, User, Books, Reviews
 import click
-import keyboard
 
 print(f'''
   (`\ .-') /`  ('-.          .-')   .-') _    ('-.  ('-.                                                      _  .-')                     .-') _                       
@@ -19,6 +18,7 @@ print(f'''
 print(f'''
 loading books....
 generating user....
+loading reviews....
 compiling data....
 ''')
       
@@ -27,73 +27,96 @@ Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
+options = 0
+while options != 4:
+    print('(1) Let me steal your data!')
+    print('(2) Want to add a book?')
+    print('(3) Write a review?')
+    print('(4) Too bad I couldnt steal your data... QUIT!!!')
 
-user_input = input('Ready to get your data stolen? Y/n: ')
-if user_input.lower() == 'y':
-    @click.command()
-    @click.option('--name', prompt='Enter name')
-    @click.option('--age', prompt='Enter age')
-    @click.option('--fav_genre', prompt='Enter favorite genre')
-    @click.option('--email', prompt='Enter email')
-    @click.option('--phone_number', prompt='Enter phone number')
+    options = int(input())
 
-    def create_user(name,age,fav_genre,email,phone_number):
-        new_user = User(
-            name = name,
-            age = age,
-            fav_genre = fav_genre,
-            email = email,
-            phone_number = phone_number
+    if options == 1:
+        print('Input your data!')
+        @click.command()
+        @click.option('--name', prompt='Enter name')
+        @click.option('--age', prompt='Enter age')
+        @click.option('--fav_genre', prompt='Enter favorite genre')
+        @click.option('--email', prompt='Enter email')
+        @click.option('--phone_number', prompt='Enter phone number')
+
+        def create_user(name,age,fav_genre,email,phone_number):
+            new_user = User(
+                name = name,
+                age = age,
+                fav_genre = fav_genre,
+                email = email,
+                phone_number = phone_number
+                )
+            session.add(new_user)
+            session.commit()
+
+        if __name__ == '__main__':
+            create_user.main(standalone_mode=False)
+        else:
+            print('Too bad I couldnt steal your data')
+        continue
+
+    elif options == 2:
+        @click.command()
+        @click.option('--title', prompt='Enter Title')
+        @click.option('--author', prompt='Enter Author')
+        @click.option('--publish_date', prompt='Enter Publish_Date (MMDDYYYY format)')
+        @click.option('--read', prompt='Have you read this book?')
+
+        def add_book(title, author, publish_date, read):
+            new_book = Books(
+                title = title,
+                author = author,
+                publish_date = publish_date,
+                read = read
+                )
+
+            session.add(new_book)
+            session.commit()
+
+        if __name__ == '__main__':
+            add_book.main(standalone_mode=False)
+        else:
+            print('Read more books!')
+
+    elif options == 3:
+        @click.command()
+        @click.option('--review', prompt='Write your review! ')
+        @click.option('--rating', prompt='What do you rate this book out of 5? ')
+        @click.option('--book_id')
+        @click.option('--user_id')
+
+        def write_review(review, rating, book_id, user_id):
+            new_review = Reviews(
+                review = review,
+                rating = rating,
+                book_id = book_id,
+                user_id = user_id
             )
 
-        session.add(new_user)
-        session.commit()
+            session.add(new_review)
+            session.commit()
 
-    if __name__ == '__main__':
-        create_user()    
-else:
-    print('Too bad I couldnt steal your data')
+        if __name__ == '__main__':
+            write_review.main(standalone_mode=False)
+        else:
+            print('Please leave a review next time!')
 
-book = input('Do you want to add a new book? Y/n: ')
-if book.lower() == 'y':
-    @click.command()
-    @click.option('--title', prompt='Enter Title')
-    @click.option('--author', prompt='Enter Author')
-    @click.option('--publish_date', prompt='Enter Publish_Date (MMDDYYYY format)')
-    @click.option('--read', prompt='Have you read this book?')
-
-    def add_book(title, author, publish_date, read):
-        new_book = Books(
-            title = title,
-            author = author,
-            publish_date = publish_date,
-            read = read
-            )
-
-        session.add(new_book)
-        session.commit()
-
-    if __name__ == '__main__':
-        add_book()
     else:
-        print('Read more books!')
-
-review = input('Do you want to leave a review? Y/n: ')
-if review.lower() == 'y':
-    @click.command()
-    @click.option('--review', prompt='Write your review! ')
-    @click.option('--rating', prompt='What do you rate this book out of 5? ')
-
-    def write_review(review, rating):
-        new_review = Reviews(
-            review = review,
-            rating = rating
-        )
-
-        session.add(new_review)
-        session.commit()
-
-    if __name__ == '__main__':
-        write_review()
-    else:
-        print('Please leave a review next time!')
+        print('''
+               .-')                       .-') _   .-') _             .-') _                    _ (`-. _  .-')                        _  .-')    ('-.    _   .-')    
+            .(  OO)                     (  OO) ) (  OO) )           ( OO ) )                  ( (OO  ( \( -O )                      ( \( -O )  ( OO ).-( '.( OO )_  
+            (_)---\_)  ,--. ,--.   ,-.-')/     '._/     '._,-.-'),--./ ,--,' ,----.           _.`     \,------. .-'),-----.  ,----.   ,------.  / . --. /,--.   ,--.)
+            '  .-.  '  |  | |  |   |  |OO|'--...__|'--...__|  |OO|   \ |  |\'  .-./-')       (__...--''|   /`. ( OO'  .-.  ''  .-./-')|   /`. ' | \-.  \ |   `.'   | 
+           ,|  | |  |  |  | | .-') |  |  '--.  .--'--.  .--|  |  |    \|  | |  |_( O- )       |  /  | ||  /  | /   |  | |  ||  |_( O- |  /  | .-'-'  |  ||         | 
+          (_|  | |  |  |  |_|( OO )|  |(_/  |  |     |  |  |  |(_|  .     |/|  | .--, \       |  |_.' ||  |_.' \_) |  |\|  ||  | .--, |  |_.' |\| |_.'  ||  |'.'|  | 
+            |  | |  |  |  | | `-' ,|  |_.'  |  |     |  | ,|  |_.|  |\    |(|  | '. (_/       |  .___.'|  .  '.' \ |  | |  (|  | '. (_|  .  '.' |  .-.  ||  |   |  | 
+            '  '-'  '-('  '-'(_.-(_|  |     |  |     |  |(_|  |  |  | \   | |  '--'  |        |  |     |  |\  \   `'  '-'  '|  '--'  ||  |\  \  |  | |  ||  |   |  | 
+              `-----'--' `-----'    `--'     `--'     `--'  `--'  `--'  `--'  `------'         `--'     `--' '--'    `-----'  `------' `--' '--' `--' `--'`--'   `--' 
+        ''')
