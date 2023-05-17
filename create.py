@@ -121,7 +121,7 @@ while options != 4:
         book_info = dict()
         for book in books:
             book_info[book.id] = book
-        print(book_info)
+        print(books)
 
         while True:
             try:
@@ -138,7 +138,7 @@ while options != 4:
         user_info = dict()
         for user in users:
             user_info[user.id] = user
-        print(user_info)
+        print(users)
 
         while True:
             try:

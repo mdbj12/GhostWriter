@@ -18,6 +18,7 @@ class User(Base):
 
     def __repr__(self):
         return f'''
+            id: {self.id}
             name: {self.name},
             age:{self.age},
             fav_genre:{self.fav_genre},
@@ -38,6 +39,7 @@ class Books(Base):
 
     def __repr__(self):
         return f'''
+            id: {self.id},
             title: {self.title},
             author: {self.author},
             read: {self.read}
