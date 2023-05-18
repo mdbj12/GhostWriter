@@ -30,14 +30,17 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 options = 0
-while options != 6:
+while options != 9:
     print('')
     print('(1) Let me steal your data!')
-    print('(2) Want to add a book?')
+    print('(2) Add a book!')
     print('(3) Write a review?')
+
+    print('(4) See the reviews of your favorite book!')
     print('(4) Wanna see who read the most books?')
     print('(5) Wanna see which book has the most reviews?')
-    print('(6) QUIT now before I steal your data!!!')
+
+    print('(9) QUIT now before I steal your data!!!')
 
     options = int(input())
 
@@ -60,13 +63,33 @@ while options != 6:
 
     elif options == 2:
         def create_book():
-            title=input("Title")
-            author=input("Author")
+
+            userid = input("Enter your unique user ID!")
+
+            users=session.query(User).all()
+
+            user_ids=[]
+            for user in users:
+                user_ids.append(user.id)
+        
+
+            while int(userid) not in user_ids:
+                userid= input(f'Please enter valid user id! Registered users: \n {users} ')
+            
+            user=session.query(User).filter_by(id=userid).first()
+
+            print(f"")
+            print(f"Welcome, {user.name}!!")
+            print(f"")
+            print("To add a book, enter the following info!")
+
+            title=input("Title: ")
+            author=input("Author: ")
             new_book = Book(title=title,author=author)
 
             session.add(new_book)
             session.commit()
-            print(f"Submitted! Your updated books list: {session.query(Book).all()}")
+            print(f"Submitted! See the updated books list below! \n {session.query(Book).all()}")
            
         if __name__ == '__main__':
                 create_book()
@@ -157,7 +180,7 @@ while options != 6:
                     author_numbers.append(i+1)
 
 
-                author_option = int(input(f"Title found! Now select the number corresponding to its author \n {authors_list} "))
+                author_option = int(input(f"Title submitted! Now choose the author by selecting the number corresponding to its author \n {authors_list} "))
                     
                 while author_option not in author_numbers:
                     print(author_numbers)
@@ -167,7 +190,7 @@ while options != 6:
                 text = input(f"Leave a review for {booktitle} by {authors[author_option-1]}! ")
 
                 book = session.query(Book).filter_by(title=booktitle).filter_by(author=authors[author_option-1]).first()
-                # book_by_title_and_author = book_by_title.filter_by(author=authors[author_option-1]).first()
+                
                 bookid = book.id
                 
                 if book is not None:
