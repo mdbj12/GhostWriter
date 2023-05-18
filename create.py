@@ -122,7 +122,7 @@ while options != 6:
                 book = session.query(Book).filter_by(id=bookid).first()
                 if book is not None:
                     booktitle = book.title
-                    bookauthor=book.author
+                    bookauthor = book.author
 
                 rating = input(f"How would you rate {booktitle} by {bookauthor} out of 10? ")
                 text = input(f"Leave a review for {booktitle}! ")
@@ -141,6 +141,7 @@ while options != 6:
                     # book_authors.append(book.author)
 
                 booktitle=input("Enter book title: ")
+
                 while booktitle not in book_titles:
                     booktitle = input(f'ERROR: Please enter a valid book title! \n Valid book titles: {book_titles} ')
                 
@@ -165,13 +166,14 @@ while options != 6:
                 rating = input(f"How would you rate {booktitle} by {authors[author_option-1]} out of 5? ")
                 text = input(f"Leave a review for {booktitle} by {authors[author_option-1]}! ")
 
-                # book_by_title = session.query(Book).filter_by(book_title=booktitle).all()
-                # book_by_title_and_author = book_by_title.filter_by(book_author=authors[author_option]).first()
-                # bookid = book_by_title_and_author.id
-                # if book is not None:
-                #     bookid = book.id
+                book = session.query(Book).filter_by(title=booktitle).filter_by(author=authors[author_option-1]).first()
+                # book_by_title_and_author = book_by_title.filter_by(author=authors[author_option-1]).first()
+                bookid = book.id
+                
+                if book is not None:
+                    bookid = book.id
 
-                new_review= Review(user_id=userid, text=text, rating=rating,  book_title=booktitle, book_author=authors[author_option])
+                new_review= Review(user_id=userid, text=text, rating=rating, book_id = bookid,  book_title=booktitle, book_author=authors[author_option-1])
 
             session.add(new_review)
             print ("Review submitted!")
