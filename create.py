@@ -35,9 +35,9 @@ session = Session()
 
 user_options = 0
 while user_options != 3:
-    print('(1) Create new UserID!')
-    print('(2) Select existing UserID!')
-    print('(3) Quit Program!')
+    click.echo('(1) Create new UserID!')
+    click.echo('(2) Select existing UserID!')
+    click.echo('(3) Quit Program!')
 
     user_options = int(input())
 
@@ -45,7 +45,7 @@ while user_options != 3:
 
         time.sleep(1)
 
-        print('''
+        click.echo('''
                                   (`-.     ('-.         _   .-')      ('-.                                           _  .-')         _ .-') _    ('-.    .-') _     ('-.   ,---. 
                                 _(OO  )_ _(  OO)       ( '.( OO )_  _(  OO)                                         ( \( -O )       ( (  OO) )  ( OO ).-(  OO) )   ( OO ).-|   | 
             ,----.    ,-.-'),--(_/   ,. (,------.       ,--.   ,--.(,------.        ,--.   ,--.-'),-----. ,--. ,--.  ,------.        \     .'_  / . --. /     '._  / . --. |   | 
@@ -61,7 +61,7 @@ while user_options != 3:
 
         @click.command()
         @click.option('--name', prompt='Enter name: ')
-        @click.option('--age', prompt='Enter age: ')
+        @click.option('--age', type=int, prompt='Enter age: ')
         @click.option('--fav_genre', prompt='Enter favorite genre: ')
 
         def create_user(name,age,fav_genre):
@@ -88,16 +88,16 @@ while user_options != 3:
         user_info = dict()
         for user in users:
             user_info[user.id] = user
-        print(users)
+        click.echo(users)
 
         while True:
             try:
                 user_id = int(input('Which UserID are you? '))
             except ValueError:
-                print('Input must be an Integer')
+                click.echo('Input must be an Integer')
                 continue
             if user_id not in list(user_info.keys()):
-                print('UserID does not exist!')
+                click.echo('UserID does not exist!')
             else:
                 user_id = user.name
                 break
@@ -113,17 +113,16 @@ while user_options != 3:
             session.commit()
 
         menu_options = 0
-        while menu_options != 5:
-            print('(1) Want to add a book?')
-            print('(2) Write a review?')
-            print('(3) Wanna see who read the most books?')
-            print('(4) Wanna see which book has the most reviews?')
-            print('(5) QUIT now before I steal your data!!!')
+        while menu_options != 4:
+            click.echo('(1) Want to add a book?')
+            click.echo('(2) Write a review?')
+            click.echo('(3) See Book Reviews?')
+            click.echo('(4) Back to UserID')
 
             menu_options = int(input())
 
             if menu_options == 1:
-                print('''
+                click.echo('''
                   (`\ .-') /`('-. .-.  ('-.    .-') _          _ .-') _         _ .-') _                                                   _  .-')    ('-.  ('-.    _ .-') _  ,------.  
                    `.( OO ),( OO )  / ( OO ).-(  OO) )        ( (  OO) )       ( (  OO) )                                                 ( \( -O ) _(  OO)( OO ).-( (  OO) )'  .--.  ' 
                 ,--./  .--. ,--. ,--. / . --. /     '._        \     .'_  ,-.-')\     .'_         ,--.   ,--.-'),-----. ,--. ,--.          ,------.(,------/ . --. /\     .'_|  |  |  | 
@@ -163,7 +162,7 @@ while user_options != 3:
                 continue
 
             elif menu_options == 2:
-                print('''
+                click.echo('''
                            ('-.  ('-.         (`-.     ('-.           ('-.           _  .-')    ('-.       (`-.            ('-.   (`\ .-') /,---. 
                          _(  OO)( OO ).-.   _(OO  )_ _(  OO)         ( OO ).-.      ( \( -O ) _(  OO)    _(OO  )_        _(  OO)   `.( OO ),|   | 
                 ,--.    (,------/ . --. ,--(_/   ,. (,------.        / . --. /       ,------.(,------,--(_/   ,. \,-.-')(,------,--./  .--. |   | 
@@ -198,19 +197,19 @@ while user_options != 3:
                     try:
                         user_id = int(input("search a user ID: "))
                     except ValueError:
-                        print('input must be an integer')
+                        click.echo('input must be an integer')
                         continue
                     if user_id not in list(user_info.keys()):
-                        print('user ID does not exist')
+                        click.echo('user ID does not exist')
                     else:
                         break
                 
                 time.sleep(1)
                 search_options = 0
                 while search_options != 3:
-                    print('(1) Search by Book ID? ')
-                    print('(2) Search by Book Title/Author? ')
-                    print('(3) Reviews done')
+                    click.echo('(1) Search by Book ID? ')
+                    click.echo('(2) Search by Book Title/Author? ')
+                    click.echo('(3) Reviews done')
                     search_options = int(input())
 
                     if search_options == 1:
@@ -240,10 +239,10 @@ while user_options != 3:
                                 time.sleep(1)
                                 book_id = int(input('Search a book ID: '))
                             except ValueError:
-                                print('Input must be an Integer')
+                                click.echo('Input must be an Integer')
                                 continue
                             if not book_id in list(book_info.keys()):
-                                print('Book ID does not exist')
+                                click.echo('Book ID does not exist')
                             else:
                                 book = books[book_id - 1]
                                 book_title = book.title
@@ -298,10 +297,10 @@ while user_options != 3:
                                 time.sleep(1)
                                 book_title = str(input('Search a Book Title: '))
                             except ValueError:
-                                print('input must be an existing book')
+                                click.echo('input must be an existing book')
                                 continue
                             if book_title not in list(book_titles.keys()):
-                                print('Book title does not exist')
+                                click.echo('Book title does not exist')
                             else:
                                 book_id = title.id
                                 break
@@ -324,10 +323,10 @@ while user_options != 3:
                                 time.sleep(1)
                                 book_author = str(input('Search a Book Author: '))
                             except ValueError:
-                                print('input must be an existing author')
+                                click.echo('input must be an existing author')
                                 continue
-                            if book_author.lower() not in list(book_authors.keys()):
-                                print('Book Author does not exist')
+                            if book_author not in list(book_authors.keys()):
+                                click.echo('Book Author does not exist')
                             else:
                                 book_author = author.author
                                 break
@@ -349,57 +348,146 @@ while user_options != 3:
                             session.add(new_review)
                             session.commit()
                             time.sleep(1)
-                        print('')
-                        print('==================================')
-                        print('========  EXITING REVIEWS ========')
-                        print('==================================')
-                        print('')
+                        click.echo('')
+                        click.echo('==================================')
+                        click.echo('========  EXITING REVIEWS ========')
+                        click.echo('==================================')
+                        click.echo('')
                     
                         if __name__ == '__main__':
                             write_review.main(standalone_mode=False)
                     else:
                         time.sleep(1)
-                        print('')
-                        print('==================================')
-                        print('========  EXITING REVIEWS ========')
-                        print('==================================')
-                        print('')
+                        click.echo('')
+                        click.echo('==================================')
+                        click.echo('========  EXITING REVIEWS ========')
+                        click.echo('==================================')
+                        click.echo('')
 
             elif menu_options == 3:
-                print('''
-               .-. .-')   ('-.   .-')   .-') _          _  .-')    ('-.  ('-.    _ .-') _    ('-. _  .-') ,---. 
-               \  ( OO )_(  OO) ( OO ).(  OO) )        ( \( -O ) _(  OO)( OO ).-( (  OO) ) _(  OO( \( -O )|   | 
-                ;-----.(,------(_)---\_/     '._        ,------.(,------/ . --. /\     .'_(,------,------.|   | 
-                | .-.  ||  .---/    _ ||'--...__)       |   /`. '|  .---| \-.  \ ,`'--..._)|  .---|   /`. |   | 
-                | '-' /_|  |   \  :` `.'--.  .--'       |  /  | ||  | .-'-'  |  ||  |  \  '|  |   |  /  | |   | 
-                | .-. `(|  '--. '..`''.)  |  |          |  |_.' (|  '--\| |_.'  ||  |   ' (|  '--.|  |_.' |  .' 
-                | |  \  |  .--'.-._)   \  |  |          |  .  '.'|  .--'|  .-.  ||  |   / :|  .--'|  .  '.`--'  
-                | '--'  |  `---\       /  |  |          |  |\  \ |  `---|  | |  ||  '--'  /|  `---|  |\  \.--.  
-                `------'`------'`-----'   `--'          `--' '--'`------`--' `--'`-------' `------`--' '--'--'  
-                ''')
+
+
+                review_options = 0
+                while review_options != 3:
+                    click.echo('Find your favorite book and see its reviews!')
+                    click.echo('(1) Search by BookID: ')
+                    click.echo('(2) Search by Book Title/Author: ')
+
+                    review_options = int(input())
+
+                    if review_options == 1:
+                        click.echo('')
+                        click.echo('============================')
+                        click.echo('===== Loading Books... =====')
+                        click.echo('============================')
+                        click.echo('')
+
+                        books = session.query(Books).all()
+                        book_info = dict()
+                        for book in books:
+                            book_info[book.id] = book
+
+                        click.echo('')
+                        click.echo('===========================')
+                        click.echo('===== Loading Data... =====')
+                        click.echo('===========================')
+                        click.echo('')
+                        time.sleep(2)
+                        click.echo(books)
+                        time.sleep(1)
+
+                        while True:
+                            try:
+                                time.sleep(1)
+                                book_id = int(input('Search a book ID: '))
+                            except ValueError:
+                                click.echo('Input must be an Integer')
+                                continue
+                            if not book_id in list(book_info.keys()):
+                                click.echo('Book ID does not exist')
+                            else:
+                                book = books[book_id - 1]
+                                book_title = book.title
+                                book_author = book.author
+                                break
+
+                        reviews = session.query(Reviews).filter_by(book_id = book_id).all()
+                        book = session.query(Books).filter_by(id = book_id).first()
+                        
+                        click.echo(f'Book Found! All reviews1 for {book_title} by {book_author}: \n {reviews}')
+                    
+                        session.commit()
+
+                    elif review_options == 2:
+                        books = session.query(Books).all()
+                        book_titles = dict()
+                        for title in books:
+                            book_titles[title.title] = title
+
+                        click.echo('')
+                        click.echo('============================')
+                        click.echo('===== Loading Books... =====')
+                        click.echo('============================')
+                        time.sleep(2)
+                        click.echo(books)
+                        time.sleep(1)
+
+                        while True:
+                            try:
+                                time.sleep(1)
+                                book_title = str(input('Search a Book Title: '))
+                            except ValueError:
+                                click.echo('input must be an existing book')
+                                continue
+                            if book_title not in list(book_titles.keys()):
+                                click.echo('Book title does not exist')
+                            else:
+                                book_id = title.id
+                                break
+
+                        authors = session.query(Books).all()
+                        book_authors = dict()
+                        for author in authors:
+                            book_authors[author.author] = author
+
+                        click.echo('')
+                        click.echo('==============================')
+                        click.echo('===== Loading Authors... =====')
+                        click.echo('==============================')
+                        time.sleep(2)
+                        click.echo(authors)
+                        time.sleep(1)
+
+                        while True:
+                            try:
+                                time.sleep(1)
+                                book_author = str(input('Search a Book Author: '))
+                            except ValueError:
+                                click.echo('input must be an existing author')
+                                continue
+                            if book_author not in list((book_authors.keys())):
+                                click.echo('Book Author does not exist')
+                            else:
+                                author = book_authors[book_author]
+                                book_author = book_authors[author]
+                                break
+                        
+                        reviews = session.query(Reviews).filter_by(book_title = book_title).filter_by(book_author = book_author).all()
+                        
+                        click.echo(f'Book Found! All reviews for {book_title} by {book_author}: \n {reviews}')
+
+                    elif review_options == 3:
+                        click.echo('============================')
+                        click.echo('======== LOADING... ========')
+                        click.echo('============================')
 
                 time.sleep(1)
 
             elif menu_options == 4:
-                print('''
-               .-. .-')   ('-.   .-')   .-') _         .-. .-')                         .-. .-') ,---. 
-               \  ( OO )_(  OO) ( OO ).(  OO) )        \  ( OO )                        \  ( OO )|   | 
-                ;-----.(,------(_)---\_/     '._        ;-----.\ .-'),-----. .-'),-----.,--. ,--.|   | 
-                | .-.  ||  .---/    _ ||'--...__)       | .-.  |( OO'  .-.  ( OO'  .-.  |  .'   /|   | 
-                | '-' /_|  |   \  :` `.'--.  .--'       | '-' /_/   |  | |  /   |  | |  |      /,|   | 
-                | .-. `(|  '--. '..`''.)  |  |          | .-. `.\_) |  |\|  \_) |  |\|  |     ' _|  .' 
-                | |  \  |  .--'.-._)   \  |  |          | |  \  | \ |  | |  | \ |  | |  |  .   \ `--'  
-                | '--'  |  `---\       /  |  |          | '--'  /  `'  '-'  '  `'  '-'  |  |\   \.--.  
-                `------'`------'`-----'   `--'          `------'     `-----'     `-----'`--' '--''--'  
-                ''')
 
                 time.sleep(1)
 
-            elif menu_options ==5:
-
-                time.sleep(1)
-
-                print('''
+                click.echo('''
                                           ('-.     _ .-') _                .-') _             
                                          ( OO ).-.( (  OO) )              ( OO ) )            
                  ,--.      .-'),-----.   / . --. / \     .'_   ,-.-') ,--./ ,--,'  ,----.     
