@@ -69,12 +69,12 @@ class Review(Base):
 
     def __repr__(self):
         return f"""
-                user_id=Column(Integer())
+                user_id={self.user_id}
                 book_title:{self.book_title}
-                book_author:{self.book_author},
+                book_author:{self.book_author}
                 book_id:{self.book_id}
-                rating:{self.rating},
-                text: {self.text},
+                rating:{self.rating}
+                text: {self.text}
                 """
         
         Review.all.append(self)

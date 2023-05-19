@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine, update, ForeignKey
 from sqlalchemy.orm import sessionmaker, mapped_column
-
 from models import Base, User, Book, Review
 import click
 import keyboard
@@ -38,8 +37,6 @@ while options != 7:
     print('(2) Add a book!')
     print('(3) Write a review?')
     print('(4) See the reviews of your favorite book!')
-    print('(5) See the leaderboard!')
-    print('(6) Wanna see which book has the most reviews?')
 
     print('(7) QUIT now before I steal your data!!!')
 
@@ -274,3 +271,22 @@ while options != 7:
         if __name__ == '__main__':
             see_reviews_by_book()
         continue
+    
+    # elif options == 5:
+    #     reviews=session.query(Review).all()
+        
+    #     def highest_rated_book():
+    #         rating_by_id={}
+    #         bookids=[]
+    #         for review in reviews:
+    #             if review.book_id not in bookids:
+    #                 rating_by_id[f'{review.book_id}']=review.rating
+    #                 bookids.append(review.book_id)
+    #             else:
+    #                 rating_by_id[f'{review.book_id}']=rrating_by_id[f'{review.book_id}']+review.rating
+            
+    #         print(rating_by_id={})
+    #         session.commit()
+    #     if __name__ == '__main__':
+    #         highest_rated_book()
+    #     continue
