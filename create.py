@@ -29,18 +29,19 @@ Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
+books=session.query(Book).all()
+users=session.query(User).all()
 options = 0
-while options != 9:
+while options != 7:
     print('')
     print('(1) Let me steal your data!')
     print('(2) Add a book!')
     print('(3) Write a review?')
-
     print('(4) See the reviews of your favorite book!')
-    print('(4) Wanna see who read the most books?')
-    print('(5) Wanna see which book has the most reviews?')
+    print('(5) See the leaderboard!')
+    print('(6) Wanna see which book has the most reviews?')
 
-    print('(9) QUIT now before I steal your data!!!')
+    print('(7) QUIT now before I steal your data!!!')
 
     options = int(input())
 
@@ -65,8 +66,6 @@ while options != 9:
         def create_book():
 
             userid = input("Enter your unique user ID!")
-
-            users=session.query(User).all()
 
             user_ids=[]
             for user in users:
@@ -100,9 +99,6 @@ while options != 9:
         def create_review():
 
             userid = input("Enter your unique user ID!")
-
-            books=session.query(Book).all()
-            users=session.query(User).all()
 
             user_ids=[]
             for user in users:
@@ -206,9 +202,75 @@ while options != 9:
         if __name__ == '__main__':
             create_review()
         continue
-        
-        
 
-    
+    elif options == 4:
+        
+        def see_reviews_by_book():
 
-    
+            search_options = 0
+            
+            print("Find your favorite book to see its reviews!")
+            print("")
+            print('(1) Search by book ID')
+            print('(2) Search by title and author')
+            search_options = int(input())
+
+            if search_options == 1:
+                print("")
+                book_ids=[]
+                for book in books:
+                    book_ids.append(book.id)
+
+                print(f"Book Options: {books}")
+                bookid = input("Enter book ID: ")
+                
+                while int(bookid) not in book_ids:
+                    bookid = input(f'ERROR: Please enter a valid book ID! \n Valid book IDs: {book_ids} ')
+                
+                reviews = session.query(Review).filter_by(book_id=bookid).all()
+
+                book = session.query(Book).filter_by(id=bookid).first()
+                if book is not None:
+                    booktitle = book.title
+                    bookauthor = book.author
+
+                print (f"Book found! All reviews for {booktitle} by {bookauthor}: \n {reviews}")
+
+            elif search_options == 2:
+                book_titles=[]
+                # book_authors=[]
+                for book in books:
+                    book_titles.append(book.title)
+                    # book_authors.append(book.author)
+
+                booktitle=input("Enter book title: ")
+
+                while booktitle not in book_titles:
+                    booktitle = input(f'ERROR: Please enter a valid book title! \n Valid book titles: {book_titles} ')
+                
+                authors=[]
+                for book in books:
+                    if booktitle == book.title:
+                        authors.append(book.author)
+                
+                authors_list=[]
+                author_numbers=[]
+                for i in range (len(authors)):
+                    authors_list.append(f'{i+1}: {authors[i]}')
+                    author_numbers.append(i+1)
+
+
+                author_option = int(input(f"Title submitted! Now choose the author by selecting the number corresponding to its author \n {authors_list} "))
+                    
+                while author_option not in author_numbers:
+                    print(author_numbers)
+                    author_option = int(input(f'ERROR: Please select a valid number! \n Valid numbers: {authors_list} '))
+
+                reviews = session.query(Review).filter_by(book_title=booktitle).filter_by(book_author=authors[author_option-1]).all()
+                print (f"Book found! All reviews for {booktitle} by {authors[author_option-1]}: \n {reviews}")
+
+            session.commit()
+        
+        if __name__ == '__main__':
+            see_reviews_by_book()
+        continue
